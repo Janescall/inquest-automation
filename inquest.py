@@ -3,6 +3,7 @@ import urllib3
 import json
 import sys
 import re
+import os
 
 # SSL 경고 비활성화
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -53,10 +54,14 @@ for item in items:
 
     filtered_data.append(item)
 
-# 저장 경로 및 파일 생성
-output_dir = "data"
-os.makedirs(output_dir, exist_ok=True)
-output_path = os.path.join(output_dir, "inquest_feed.json")
+final_result = {
+    "data": filtered_data,
+    "success": True
+}
+
+# GitHub Actions에서 저장할 고정 경로 설정
+output_path = "data/inquest_feed.json"
+os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
 # 결과를 한 줄로 저장 (minified JSON)
 with open(output_path, "w", encoding="utf-8") as f:
