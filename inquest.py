@@ -1,7 +1,8 @@
 import requests
 import urllib3
 import json
-import os
+import sys
+import re
 
 # SSL 경고 비활성화
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -48,18 +49,15 @@ for item in items:
     seen_artifacts.add(artifact)
 
     if "reference_text" in item:
-        item["reference_text"] = item["reference_text"].replace("\n", " ").replace("\r", " ").replace("\t", " ").strip()
+        item["reference_text"] = re.sub(r'\s+', ' ', item["reference_text"]).strip()
 
     filtered_data.append(item)
 
-# 최종 결과 구성
+# 최종 전체 JSON 구조로 재조합
 final_result = {
     "data": filtered_data,
     "success": True
 }
 
-# 저장 경로 생성
-output_path = "data"
-os.makedirs(output_path, exist_ok=True)
-with open(os.path.join(output_path, "inquest_feed.json"), "w", encoding="utf-8") as f:
-    json.dump(final_result, f, ensure_ascii=False, indent=2)
+# 콘솔에 전체 구조 출력 (UTF-8)
+sys.stdout.buffer.write((json.dumps(final_result, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
