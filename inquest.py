@@ -60,4 +60,5 @@ final_result = {
 }
 
 # 콘솔에 전체 구조 출력 (UTF-8)
-sys.stdout.buffer.write((json.dump(final_result, f, ensure_ascii=False, separators=(',', ':')) + "\n").encode("utf-8"))
+sys.stdout.buffer.write((json.dumps(final_result, ensure_ascii=False, separators=(',', ':')) + "\n").encode("utf-8"))
+
