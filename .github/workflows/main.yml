@@ -30,7 +30,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: ThreatFox IOC 데이터 수집 및 변환
+    - name: Inquest IOC 데이터 수집 및 변환
       run: python inquest.py
 
     - name: 변경 사항 확인
