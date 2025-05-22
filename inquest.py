@@ -53,12 +53,11 @@ for item in items:
 
     filtered_data.append(item)
 
-# 최종 전체 JSON 구조로 재조합
-final_result = {
-    "data": filtered_data,
-    "success": True
-}
+# 저장 경로 및 파일 생성
+output_dir = "data"
+os.makedirs(output_dir, exist_ok=True)
+output_path = os.path.join(output_dir, "inquest_feed.json")
 
-# 콘솔에 전체 구조 출력 (UTF-8)
-sys.stdout.buffer.write((json.dumps(final_result, ensure_ascii=False, separators=(',', ':')) + "\n").encode("utf-8"))
-
+# 결과를 한 줄로 저장 (minified JSON)
+with open(output_path, "w", encoding="utf-8") as f:
+    json.dump(final_result, f, ensure_ascii=False, separators=(',', ':'))
